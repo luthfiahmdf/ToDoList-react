@@ -40,3 +40,10 @@
   display: grid;
   grid-template-columns: repeat(2, 70% 30%);
 }
+.taskBg .done {
+  text-decoration: line-through;
+  color: red;
+}
+input[type="checkbox"]:checked + h1.strikethrough {
+  text-decoration: line-through;
+}

@@ -27,19 +27,28 @@ function App() {
   };
 
   const doneTask = (e) => {
-    const filteredItems = data.id.map;
+    const filtred = todo.filter((task) => {
+      return task.complete;
+    });
+    SetTodo(filtred);
+  };
+
+  const todoTask = () => {
+    const filtred = todo.filter((task) => {
+      return !task.complete;
+    });
+    SetTodo(filtred);
   };
 
   const clearTask = (e) => {
     SetTodo([]);
   };
 
-  const handleDeleteDoneTasks = (e) => {
-    const filteredItems = data.filter((item) => item.completed === false);
-
-    SetTodo({
-      items: filteredItems,
+  const handleDeleteDoneTasks = () => {
+    let filtred = todo.filter((task) => {
+      return !task.complete;
     });
+    SetTodo(filtred);
   };
 
   const handleDoneTask = (id) => {
@@ -101,10 +110,20 @@ function App() {
               <button className="bg-sky-500 w-44  h-8 rounded">All</button>
             </div>
             <div>
-              <button className="bg-sky-500 w-44  h-8 rounded">Done</button>
+              <button
+                className="bg-sky-500 w-44  h-8 rounded"
+                onClick={doneTask}
+              >
+                Done
+              </button>
             </div>
             <div>
-              <button className="bg-sky-500 w-44  h-8 rounded">Todo</button>
+              <button
+                className="bg-sky-500 w-44  h-8 rounded"
+                onClick={todoTask}
+              >
+                Todo
+              </button>
             </div>
           </div>
         </div>

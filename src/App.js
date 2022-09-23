@@ -1,10 +1,5 @@
-import {
-  FaSistrix,
-  FaRegTrashAlt,
-  FaEdit,
-  FaCheckSquare,
-} from "react-icons/fa";
-import { BiCheckboxChecked, BiSquare } from "react-icons/bi";
+import { FaSistrix, FaRegTrashAlt, FaEdit } from "react-icons/fa";
+
 import "./App.css";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,9 +26,32 @@ function App() {
     SetTodo(newTasks);
   };
 
-  const doneTask = () => {};
+  const doneTask = (e) => {
+    const filteredItems = data.id.map;
+  };
 
-  const cancelUpdate = () => {};
+  const clearTask = (e) => {
+    SetTodo([]);
+  };
+
+  const handleDeleteDoneTasks = (e) => {
+    const filteredItems = data.filter((item) => item.completed === false);
+
+    SetTodo({
+      items: filteredItems,
+    });
+  };
+
+  const handleDoneTask = (id) => {
+    const filteredItems = data.map((item) => {
+      item.id === id && (item.complete = !item.complete);
+      return item;
+    });
+
+    SetTodo({
+      items: filteredItems,
+    });
+  };
 
   const changeTask = (e) => {
     let newEntry = {
@@ -55,7 +73,6 @@ function App() {
     <div className="Container h-screen border-2  grid place-content-center bg-slate-200 ">
       <div className="container-lg w-42 h-42 bg-slate-100 m-20 drop-shadow-xl">
         <div className="header text-center font-bold text-2xl mt-2">
-          {" "}
           ToDoSearch
         </div>
         <div className="seacrh m-3 p-2 border border-slate-400">
@@ -92,58 +109,65 @@ function App() {
           </div>
         </div>
 
-        {todo &&
-          todo.map((task) => (
-            <div className="Content pr-2 pl-2 pb-1 m-1 ">
-              <div className="items-center">
-                <div className="border-2 border-slate-400 p-1 hover:border-slate-600 grid grid-cols-2 ">
-                  <h1
-                    key={task.id}
-                    className={`${
-                      task.complete
-                        ? "text-red-600 line-through "
-                        : "text-black"
+        {todo?.map((task) => (
+          <div className="Content pr-2 pl-2 pb-1 m-1 ">
+            <div className="items-center">
+              <div className="border-2 border-slate-400 p-1 hover:border-slate-600 grid grid-cols-2 ">
+                <h1
+                  className={`${
+                    task.complete ? ` text-red-600 line-through ` : "text-black"
+                  }`}
+                >
+                  {task.task}
+                </h1>
+                <div className="flex flex-wrap justify-end pr-2 space-x-2">
+                  <span
+                    className={` ${
+                      task.complete ? "text-emerald-700" : "text-secondary"
                     }`}
+                    onChange={() => handleDoneTask(task.id)}
                   >
-                    {task.task}
-                  </h1>
-                  <div className="flex flex-wrap justify-end pr-2 space-x-2">
-                    <div className="taskBg">
-                      <input
-                        type="checkbox"
-                        className={`${data.complete ? "checked" : ""}`}
-                      ></input>
-                    </div>
-
-                    <button
-                      className="text-yellow-400 "
-                      value={update && update.title}
-                      onChange={(e) => changeTask(e)}
-                      onClick={updateTask}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="text-rose-900"
-                      onClick={() => delTask(task.id)}
-                    >
-                      <FaRegTrashAlt />
-                    </button>
-                  </div>
+                    <i
+                      className={`${
+                        task.complete ? "far fa-check-square" : "far fa-square"
+                      }`}
+                    />
+                  </span>
+                  <button
+                    className="text-yellow-400 "
+                    value={update && update.task}
+                    onChange={(e) => changeTask(e.target.value)}
+                    onClick={updateTask}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="text-rose-900"
+                    onClick={() => delTask(task.id)}
+                  >
+                    <FaRegTrashAlt />
+                  </button>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
 
         <div className="footer grid place-content-center mb-2 ">
           <div className="grid grid-cols-2 text-center m-2 font-light text-white gap-x-9 ">
             <div className="_colleft ">
-              <button className="rounded bg-rose-700 w-72 h-8 ">
+              <button
+                className="rounded bg-rose-700 w-72 h-8 "
+                onClick={handleDeleteDoneTasks}
+              >
                 Delete Done Task
               </button>
             </div>
             <div className="_colright">
-              <button className="rounded bg-rose-700 w-72 h-8">
+              <button
+                className="rounded bg-rose-700 w-72 h-8"
+                onClick={clearTask}
+              >
                 Delete All Task
               </button>
             </div>
